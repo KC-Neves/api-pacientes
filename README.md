@@ -1,111 +1,85 @@
-# 🧠 API de Pacientes
+# 🧪 api-pacientes — API RESTful de Gestão e Triagem Clínica
 
-![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js)
-![Express](https://img.shields.io/badge/Express.js-Framework-blue)
-![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?logo=mongodb)
-![JWT](https://img.shields.io/badge/JWT-Auth-orange?logo=jsonwebtokens)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
-![Render](https://img.shields.io/badge/Deploy-Render-purple)
-![Status](https://img.shields.io/badge/Status-Online-success)
+Uma API RESTful robusta desenvolvida em Node.js, Express e MongoDB para o gerenciamento de registros de pacientes, históricos clínicos e triagens de exames. Esta API atua como o motor de dados (Backend) do ecossistema [Saúde+ Dashboard](https://github.com).
 
-Uma **API RESTful** desenvolvida em **Node.js + Express + MongoDB** para gerenciamento de pacientes, com autenticação **JWT** e integração total com o painel **Saúde+ Dashboard**.
+---
+
+## 🎯 Contexto Hospitalar e Regras de Negócio (O Diferencial de Saúde)
+Com base na minha vivência de 7 anos em laboratórios diagnósticos e salas de vacinas, projetei esta API para simular as regras de integridade, segurança e usabilidade exigidas por Prontuários Eletrônicos (PEP) e Sistemas de Informação de Laboratório (LIS):
+
+- **Privacidade por Design (LGPD):** Implementação de autenticação restrita via JWT para assegurar que apenas profissionais de saúde autorizados acessem dados sensíveis e parâmetros vitais dos pacientes.
+- **Persistência Dinâmica NoSQL:** Uso do MongoDB para acomodar de forma flexível e escalável históricos médicos que demandam atualizações contínuas de sintomas e exames.
+- **Validação de Sinais Vitais:** Gerenciamento estruturado de payloads contendo peso, altura, pressão arterial e índice glicêmico para facilitar o monitoramento clínico e a triagem rápida.
 
 ---
 
 ## 🧭 Sumário
-
-1. [🌟 Visão Geral](#-visão-geral)  
-2. [⚙️ Tecnologias Utilizadas](#-tecnologias-utilizadas)  
-3. [🧩 Estrutura do Projeto](#-estrutura-do-projeto)  
-4. [🚀 Deploy](#-deploy)  
-5. [🧪 Rotas da API](#-rotas-da-api)  
-   - [🔐 Autenticação](#-autenticação)  
-   - [👩‍⚕️ Pacientes](#-pacientes)  
-6. [💻 Como Rodar Localmente](#-como-rodar-localmente)  
-7. [🔗 Integração com o Frontend](#-integração-com-o-frontend)  
-8. [👩‍💻 Desenvolvido por](#-desenvolvido-por)
-
----
-
-## 🌟 Visão Geral
-
-A **API de Pacientes** permite o cadastro, listagem e atualização de dados de saúde dos pacientes de forma **segura e escalável**.  
-Ela é consumida pelo frontend **Saúde+ Dashboard**, criado em React, e faz uso de **autenticação JWT** para proteger as rotas privadas.
+1. 🎯 Contexto Hospitalar e Regras de Negócio
+2. ⚙️ Tecnologias Utilizadas
+3. 🧩 Estrutura do Projeto
+4. 🚀 Deploy
+5. 🧪 Rotas da API
+6. 💻 Como Rodar Localmente
+7. 🔗 Integração com o Frontend
+8. 👩‍💻 Desenvolvida por
 
 ---
 
 ## ⚙️ Tecnologias Utilizadas
-
-- **Node.js** – Servidor backend  
-- **Express** – Framework web  
-- **MongoDB Atlas** – Banco de dados na nuvem  
-- **Mongoose** – ODM para modelar os dados  
-- **JWT (Json Web Token)** – Autenticação segura  
-- **bcrypt.js** – Criptografia de senhas  
-- **dotenv** – Variáveis de ambiente  
-- **CORS** – Permite acesso do frontend hospedado
+- **Node.js** – Ambiente de execução do servidor backend
+- **Express** – Framework web ágil e minimalista
+- **MongoDB Atlas** – Banco de dados na nuvem para registros escaláveis
+- **Mongoose** – ODM para modelagem consistente de esquemas clínicos
+- **JWT (Json Web Token)** – Autenticação segura de perfis de saúde
+- **bcrypt.js** – Criptografia robusta de credenciais de acesso
+- **dotenv** – Gestão segura de variáveis de ambiente
+- **CORS** – Liberação controlada para integração com o frontend em React
 
 ---
 
 ## 🧩 Estrutura do Projeto
-
-```bash
+```text
 api-pacientes/
 ├── src/
-│   ├── controllers/     → Lógica das rotas
-│   ├── models/          → Modelos Mongoose
-│   ├── routes/          → Definição de rotas (pacientes e auth)
-│   └── server.js        → Configuração do servidor e conexão com MongoDB
-├── .env                 → Variáveis de ambiente (porta, URI, JWT_SECRET)
+│   ├── controllers/     → Lógica de negócio e respostas das rotas
+│   ├── models/          → Modelos Mongoose (Esquemas de dados do paciente)
+│   ├── routes/          → Definição de endpoints (pacientes e auth)
+│   └── server.js        → Configuração do servidor e conexão de banco
+├── .env                 → Credenciais locais (porta, URI, JWT_SECRET)
 ├── package.json
-└── README.md 
+└── README.md
 ```
 
 ---
 
 ## 🚀 Deploy
-
-A API está hospedada no Render:
-
-🔗 https://api-pacientes-vh6j.onrender.com
+A API está hospedada e operacional no Render:
+🔗 [https://api-pacientes-vh6j.onrender.com](https://api-pacientes-vh6j.onrender.com)
 
 ---
 
 ## 🧪 Rotas da API
 
-🔐 Autenticação
+### 🔐 Autenticação e Controle de Acesso
 
-➕ Registrar novo usuário
-```bash
-
-POST /api/auth/register
-```
-
-Body (JSON):
-```json
-
-{
-  "email": "kelly@email.com",
-  "senha": "001010"
-}
-```
-
-🔑 Login de usuário
-
-```bash
-
-POST /api/auth/login
-```
-
-**Body (JSON):**
+**➕ Registrar novo usuário clínico**
+`POST /api/auth/register`
 ```json
 {
   "email": "kelly@email.com",
-  "senha": "001010"
+  "senha": "your_secure_password"
 }
 ```
 
-**Resposta (JSON):**
+**🔑 Login do profissional de saúde**
+`POST /api/auth/login`
+```json
+{
+  "email": "kelly@email.com",
+  "senha": "your_secure_password"
+}
+```
+*Resposta (JSON):*
 ```json
 {
   "message": "Login bem-sucedido!",
@@ -115,27 +89,14 @@ POST /api/auth/login
 
 ---
 
-## 👩‍⚕️ Pacientes
+### 👩‍⚕️ Prontuário e Gestão de Pacientes
+⚠️ *Todas as rotas abaixo exigem cabeçalho de autenticação: `Authorization: Bearer seu_token_jwt`*
 
-⚠️ Todas as rotas abaixo exigem autenticação JWT
-Envie o token no cabeçalho:
-Authorization: Bearer seu_token_jwt
+**📋 Listar Pacientes Triados**
+`GET /api/pacientes`
 
-
-📋 Listar pacientes
-```bash
-
-GET /api/pacientes
-```
-
-➕ Criar paciente
-
-```bash
-
-POST /api/pacientes
-```
-
-**Body (JSON):**
+**➕ Criar Novo Registro Clínico**
+`POST /api/pacientes`
 ```json
 {
   "nome": "Ana Souza",
@@ -147,57 +108,45 @@ POST /api/pacientes
 }
 ```
 
-### ✏️ Atualizar paciente
-```bash
+**✏️ Atualizar Parâmetros de Saúde**
+`PUT /api/pacientes/:id`
 
-PUT /api/pacientes/:id
-```
-
-❌ Remover paciente
-```bash
-
-DELETE /api/pacientes/:id
-```
+**❌ Remoção de Registro Hospitalar**
+`DELETE /api/pacientes/:id`
 
 ---
 
 ## 💻 Como Rodar Localmente
 
 ```bash
-
-# Clone o repositório
+# 1. Clone o repositório
 git clone https://github.com/KC-Neves/api-pacientes.git
 
-# Acesse a pasta
+# 2. Acesse a pasta do projeto
 cd api-pacientes
 
-# Instale as dependências
+# 3. Instale as dependências de mercado
 npm install
 
-# Configure seu arquivo .env
+# 4. Configure as variáveis no seu arquivo .env
 PORT=5000
-MONGO_URI=sua_string_de_conexao
-JWT_SECRET=sua_chave_secreta
+MONGO_URI=sua_string_de_conexao_mongodb
+JWT_SECRET=sua_chave_secreta_jwt
 
-# Inicie o servidor em modo desenvolvimento
+# 5. Inicie o servidor em ambiente de desenvolvimento
 npm run dev
 ```
-
-O servidor rodará em:
-👉 http://localhost:5000
+O servidor rodará localmente em: 👉 `http://localhost:5000`
 
 ---
 
 ## 🔗 Integração com o Frontend
+O frontend **Saúde+ Dashboard** consome esta API em tempo real para gerar inteligência visual de dados médicos. 
+Interface hospedada na Vercel: 🔗 [https://saude-dashboard-wine.vercel.app](https://saude-dashboard-wine.vercel.app)
 
-O frontend Saúde+ Dashboard consome esta API para exibir dados dos pacientes em tempo real.
-Frontend hospedado em:
+---
 
-🔗 https://saude-dashboard-wine.vercel.app
-
-## 👩‍💻 Desenvolvido por
-
-Kelly Cristina Neves
-💼 GitHub: KC-Neves
-
-🌐 Projeto Completo: Saúde+ Dashboard + API
+## 👩‍💻 Desenvolvida por
+**Kelly Cristina Neves** 
+- 💼 GitHub: [@KC-Neves](https://github.com/KC-Neves)
+- 🌐 Ecossistema Completo: Saúde+ Dashboard + API
